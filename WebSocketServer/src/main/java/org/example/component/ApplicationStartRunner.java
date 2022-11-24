@@ -23,16 +23,10 @@ public class ApplicationStartRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         /**
-         * 서버가 시작 되면 client 로 부터 받음
+         * socket server 확인
          *
          * */
-
-        try{
-           new UdpServer().start();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+        new UdpServer().start();
     }
 
 

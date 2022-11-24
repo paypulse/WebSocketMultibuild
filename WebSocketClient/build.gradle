@@ -13,6 +13,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl'
+    implementation 'org.springframework:spring-websocket:5.3.18'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

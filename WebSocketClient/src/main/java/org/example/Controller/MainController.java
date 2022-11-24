@@ -6,37 +6,21 @@ import org.example.config.UdpConnect;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import sun.reflect.annotation.ExceptionProxy;
-
 
 @Slf4j
 @Controller
-public class clientRun {
+public class MainController {
+
+    @RequestMapping("/chat")
+    public ModelAndView chat(){
 
 
-
-    @RequestMapping(value ="/client")
-    public ModelAndView socketClient(){
-
-       try{
-            UdpConnect udp = new UdpConnect();
-            udp.start();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-
+        new UdpConnect("localhost" , 9666);
 
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("connect");
+        mv.setViewName("chat");
 
         return mv;
 
-
     }
-
-
-
 }

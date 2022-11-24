@@ -6,63 +6,41 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
-public class UdpServer {
+public class UdpServer{
 
-    @Value("${server.port}")
-    public static int port;
+    /**
+     * 클라이언트에서 받은 문자열 출력
+     * */
+    public BufferedReader br;
 
-    public void start() throws IOException {
+    public void start() throws Exception{
+        System.out.println("::::::::::::server start :::::::::: ");
 
-        System.out.println("Udp Start");
-        /**
-         * 소켓을 생성
-         * */
-        DatagramSocket socket = new DatagramSocket(9696);
+        try{
+            ServerSocket serverSocket = new ServerSocket(9666);
+            System.out.println("[서버] 생성된 socket port :::" + serverSocket.getLocalPort() );
+            System.out.println("[서버] 생성된 socket InetAddress :::" + serverSocket.getInetAddress() );
 
-        System.out.println("Socket :" + socket);
-        DatagramPacket inpacket , outpacket;
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("[서버] accept 되었을때");
 
-        /**
-         * 받을 message
-         * */
-        byte[] byteArray  = new byte[1000];
-        byte[] outMsg;
+            InetSocketAddress clientSocketAddress = (InetSocketAddress) clientSocket.getRemoteSocketAddress();
+            System.out.println("[서버] 클라이언트의 포트 번호는" + clientSocketAddress.getPort());
 
-        while(true){
-            /**
-             * 데이터를 수신하기 위한 패킷을 생성
-             * */
-            inpacket = new DatagramPacket(byteArray, byteArray.length);
-            System.out.println("inpacket : " + inpacket);
+            br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            System.out.println(br.readLine());
 
-            /**
-             * 패킷을 통해 데이터 수신
-             * */
-            socket.receive(inpacket);
-
-            /**
-             *수신한 패킷으로 부터 client의 ip 주소와 port 얻기
-             * **/
-            InetAddress address = inpacket.getAddress();
-            int port = inpacket.getPort();
-
-            System.out.println("address  :::"+address);
-            System.out.println("port :::" + port);
-            System.out.println(inpacket.getData());
-
-
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        
-
-
-
-
 
 
     }
+
+
+
 }
